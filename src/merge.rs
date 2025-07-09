@@ -1,12 +1,13 @@
-pub fn mergesort(arr : &[i32]) -> Vec<i32> {
+#[allow(dead_code)]
+pub fn mergesort(arr: &[i32]) -> Vec<i32> {
     if arr.len() == 1 {
         return Vec::from(arr);
     };
-    let mid = arr.len()/2; 
+    let mid = arr.len() / 2;
     let (arr_a, arr_b) = arr.split_at(mid);
     let arr_a = mergesort(arr_a);
     let arr_b = mergesort(arr_b);
-    
+
     let mut result = vec![];
     {
         let mut a_idx = 0;
@@ -14,11 +15,11 @@ pub fn mergesort(arr : &[i32]) -> Vec<i32> {
         while a_idx < arr_a.len() || b_idx < arr_b.len() {
             let a = match a_idx.cmp(&arr_a.len()) {
                 std::cmp::Ordering::Less => Some(arr_a[a_idx]),
-                _ => None
+                _ => None,
             };
             let b = match b_idx.cmp(&arr_b.len()) {
                 std::cmp::Ordering::Less => Some(arr_b[b_idx]),
-                _ => None
+                _ => None,
             };
             if a.is_none() || b.is_none() {
                 if let Some(a) = a {
@@ -43,7 +44,7 @@ pub fn mergesort(arr : &[i32]) -> Vec<i32> {
                     b_idx += 1;
                 }
             };
-        };
+        }
     };
     result
 }
