@@ -1,9 +1,11 @@
 use std::mem;
 
+#[allow(dead_code)]
 //construct heap using tradional insert method
-pub fn heapsort_slow_construct(vec : Vec<i32>) -> Vec<i32> {
-    let mut heap = MinHeap::with_capacity(vec.len());
-    for v in vec {
+pub fn heapsort_slow_construct(arr : &[i32]) -> Vec<i32> {
+    let arr = Vec::from(arr);
+    let mut heap = MinHeap::with_capacity(arr.len());
+    for v in arr {
         heap.insert(v);
     };
     let mut sorted = vec![];
@@ -14,8 +16,9 @@ pub fn heapsort_slow_construct(vec : Vec<i32>) -> Vec<i32> {
 }
 
 //consturct heap by recursively bubble bottom from node n/2
-pub fn heapsort_fast_construct(vec : Vec<i32>) -> Vec<i32> {
-    let mut heap = MinHeap::from(vec);
+pub fn heapsort_fast_construct(arr : &[i32]) -> Vec<i32> {
+    let arr = Vec::from(arr);
+    let mut heap = MinHeap::from(arr);
     let mut sorted = vec![];
     while heap.len() > 0 {
         sorted.push(heap.extract());
