@@ -8,7 +8,6 @@ use crate::{
 };
 use rand::Rng;
 use std::{
-    rc::Rc,
     time::{self, Duration},
 };
 fn main() {
