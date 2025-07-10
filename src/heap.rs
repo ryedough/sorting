@@ -1,6 +1,5 @@
 use std::mem;
 
-#[allow(dead_code)]
 //construct heap using tradional insert method
 pub fn heapsort_slow_construct(arr: &[i32]) -> Vec<i32> {
     let arr = Vec::from(arr);
@@ -15,7 +14,6 @@ pub fn heapsort_slow_construct(arr: &[i32]) -> Vec<i32> {
     sorted
 }
 
-#[allow(dead_code)]
 //consturct heap by using the unsorted array as node, then recursively bubble bottom from (n/2)th node to 0th node
 pub fn heapsort_fast_construct(arr: &[i32]) -> Vec<i32> {
     let arr = Vec::from(arr);

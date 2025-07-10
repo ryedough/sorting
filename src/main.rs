@@ -1,9 +1,10 @@
 mod heap;
 mod merge;
+mod quick;
 
 use crate::{
     heap::{heapsort_fast_construct, heapsort_slow_construct},
-    merge::mergesort,
+    merge::mergesort, quick::quicksort,
 };
 use rand::Rng;
 use std::{
@@ -12,34 +13,40 @@ use std::{
 };
 fn main() {
     let n = 10000;
-    let loop_n = 100;
+    let loop_n = 10;
     let vec = gen_random_vec(n);
 
-    track_avr(
-        heapsort_slow_construct,
-        &vec,
-        "heapsort_slow_construct",
-        loop_n,
-    );
-    // track_avr(
-    //     heapsort_fast_construct,
-    //     &vec,
-    //     "heapsort_fast_construct",
-    //     loop_n,
-    // );
-    // track_avr(mergesort, &vec, "mergesort", loop_n);
+    track_avr(|| {
+        let mut vec = vec.clone();
+        track(move||{
+            heapsort_slow_construct(&mut vec);
+        }, None)
+    }, "heapsort_slow_construct", loop_n);
+
+    track_avr(|| {
+        let mut vec = vec.clone();
+        track(move||{
+            heapsort_fast_construct(&mut vec);
+        }, None)
+    }, "heapsort_fast_construct", loop_n);
+
+    track_avr(|| {
+        let mut vec = vec.clone();
+        let mut rng = rand::rng();
+        track(move||{
+            quicksort(&mut vec, &mut rng);
+        }, None)
+    }, "quicksort", loop_n);
 }
 
 fn track_avr(
-    to_track: impl Fn(&[i32]) -> Vec<i32>,
-    data: &[i32],
+    to_track: impl Fn() -> Duration,
     label: &str,
     loop_n: usize,
 ) -> Duration {
-    let mut durations = vec![];
+    let mut durations = Vec::with_capacity(loop_n);
     for _ in 0..loop_n {
-        let d = track(|| to_track(data), None);
-        durations.push(d);
+        durations.push(to_track());
     }
     let sum = durations.into_iter().reduce(|acc, v| acc + v).unwrap();
     let avg = sum / loop_n.try_into().unwrap();
