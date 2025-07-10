@@ -12,31 +12,40 @@ use std::{
     time::{self, Duration},
 };
 fn main() {
-    let n = 10000;
+    let n = 1_000_000;
     let loop_n = 10;
     let vec = gen_random_vec(n);
 
-    track_avr(|| {
-        let mut vec = vec.clone();
-        track(move||{
-            heapsort_slow_construct(&mut vec);
-        }, None)
-    }, "heapsort_slow_construct", loop_n);
+    // track_avr(|| {
+    //     let mut vec = vec.clone();
+    //     track(move||{
+    //         heapsort_slow_construct(&mut vec);
+    //     }, None)
+    // }, "heapsort_slow_construct", loop_n);
 
     track_avr(|| {
         let mut vec = vec.clone();
         track(move||{
             heapsort_fast_construct(&mut vec);
+            // println!("{res:?}")
         }, None)
     }, "heapsort_fast_construct", loop_n);
 
     track_avr(|| {
         let mut vec = vec.clone();
-        let mut rng = rand::rng();
         track(move||{
-            quicksort(&mut vec, &mut rng);
+            mergesort(&mut vec);
+            // println!("{res:?}")
         }, None)
-    }, "quicksort", loop_n);
+    }, "mergesort", loop_n);
+
+    // track_avr(|| {
+    //     let mut vec = vec.clone();
+    //     let mut rng = rand::rng();
+    //     track(move||{
+    //         quicksort(&mut vec, &mut rng);
+    //     }, None)
+    // }, "quicksort", loop_n);
 }
 
 fn track_avr(
