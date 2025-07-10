@@ -16,18 +16,18 @@ fn main() {
     let loop_n = 10;
     let vec = gen_random_vec(n);
 
-    // track_avr(|| {
-    //     let mut vec = vec.clone();
-    //     track(move||{
-    //         heapsort_slow_construct(&mut vec);
-    //     }, None)
-    // }, "heapsort_slow_construct", loop_n);
+    track_avr(|| {
+        let mut vec = vec.clone();
+        track(move||{
+            heapsort_slow_construct(&mut vec);
+        }, None)
+    }, "heapsort_slow_construct", loop_n);
 
     track_avr(|| {
         let mut vec = vec.clone();
         track(move||{
             heapsort_fast_construct(&mut vec);
-            // println!("{res:?}")
+            // println!("{vec:?}")
         }, None)
     }, "heapsort_fast_construct", loop_n);
 
@@ -39,13 +39,14 @@ fn main() {
         }, None)
     }, "mergesort", loop_n);
 
-    // track_avr(|| {
-    //     let mut vec = vec.clone();
-    //     let mut rng = rand::rng();
-    //     track(move||{
-    //         quicksort(&mut vec, &mut rng);
-    //     }, None)
-    // }, "quicksort", loop_n);
+    track_avr(|| {
+        let mut vec = vec.clone();
+        let mut rng = rand::rng();
+        track(move||{
+            quicksort(&mut vec, &mut rng);
+            // println!("{vec:?}")
+        }, None)
+    }, "quicksort", loop_n);
 }
 
 fn track_avr(

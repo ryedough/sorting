@@ -1,5 +1,3 @@
-use std::mem;
-
 /// Construct heap by inserting each element of the unsorted array into the heap
 pub fn heapsort_slow_construct(arr: &[i32]) -> Vec<i32> {
     let arr = Vec::from(arr);
@@ -17,6 +15,8 @@ pub fn heapsort_slow_construct(arr: &[i32]) -> Vec<i32> {
 /// Consturct heap by borrowing the unsorted array, and using bubble down from (n/2)th node until 0th node to create the heap.
 /// 
 /// This is faster than `heapsort_slow_construct` because it does not require inserting
+/// # Return
+/// The sorted array
 /// # Note
 /// Will mutate the original array into gibberish
 pub fn heapsort_fast_construct(arr: &mut [i32]) -> Vec<i32> {
@@ -70,8 +70,7 @@ impl MinHeap {
         };
 
         if self.data[node_idx] < self.data[parent_idx] {
-            let (first_half_ref, node_ref) = self.data.split_at_mut(node_idx);
-            mem::swap(&mut node_ref[0], &mut first_half_ref[parent_idx]);
+            self.data.swap(parent_idx, node_idx);
         }
         self.bubble_up(parent_idx);
     }
@@ -91,8 +90,7 @@ impl MinHeap {
         if smallest_idx == node_idx {
             return;
         }
-        let (first_half_ref, node_ref) = self.data.split_at_mut(smallest_idx);
-        mem::swap(&mut first_half_ref[node_idx], &mut node_ref[0]);
+        self.data.swap(node_idx, smallest_idx);
         self.bubble_down(smallest_idx);
     }
 
@@ -143,10 +141,7 @@ impl<'a> MinHeapBorrow<'a> {
     }
     pub fn extract(&mut self) -> i32 {
         let result = self.data[0];
-        if self.n-1 > 1 {
-            let (first_half, last) = self.data.split_at_mut(self.n-1);
-            mem::swap(&mut first_half[0], &mut last[0]);
-        }
+        self.data.swap(0, self.n-1);
         self.n -= 1;
 
         if self.n > 0 {
@@ -169,8 +164,7 @@ impl<'a> MinHeapBorrow<'a> {
         if smallest_idx == node_idx {
             return;
         }
-        let (first_half_ref, node_ref) = self.data.split_at_mut(smallest_idx);
-        mem::swap(&mut first_half_ref[node_idx], &mut node_ref[0]);
+        self.data.swap(node_idx, smallest_idx);
         self.bubble_down(smallest_idx);
     }
     fn child(&self, node_idx: usize) -> (Option<usize>, Option<usize>) {

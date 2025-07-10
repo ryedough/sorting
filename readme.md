@@ -1,8 +1,8 @@
 # Sorting Practice
-implementing sorting into rust from "Algorithm Design Manual" book by Steven S. Skiena
+implementing sorting function from "Algorithm Design Manual" book by Steven S. Skiena into rust
 
 ## Benchmark
-The result were average from 10 runs of each sort function
+The result is the average time taken by the sort function in 10 iterations
 $n$ is the number of elements in the array
 
 | Sort Function | $n = 100$ | $n = 10,000$ | $n = 1,000,000$ |
